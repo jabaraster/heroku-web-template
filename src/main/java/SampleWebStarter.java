@@ -1,4 +1,5 @@
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
+import org.eclipse.jetty.nosql.memcached.MemcachedSessionIdManager;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Server;
@@ -27,10 +28,10 @@ public class SampleWebStarter {
 
         final Server server = new Server(port);
 
-        // final MemcachedSessionIdManager memcachedSessionIdManager = new MemcachedSessionIdManager(server);
-        //        memcachedSessionIdManager.setServerString("localhost:11211"); //$NON-NLS-1$
-        //        memcachedSessionIdManager.setKeyPrefix("session:"); //$NON-NLS-1$
-        // server.setSessionIdManager(memcachedSessionIdManager);
+        final MemcachedSessionIdManager memcachedSessionIdManager = new MemcachedSessionIdManager(server);
+        memcachedSessionIdManager.setServerString("localhost:11211"); //$NON-NLS-1$
+        memcachedSessionIdManager.setKeyPrefix("session:"); //$NON-NLS-1$
+        server.setSessionIdManager(memcachedSessionIdManager);
 
         final WebAppContext context = new WebAppContext();
         context.setConfigurations(new Configuration[] { //
