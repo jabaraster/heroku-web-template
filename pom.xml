@@ -19,6 +19,7 @@
 		</dependency>
 
 		<!-- 組み込みJettyの実行に必要 -->
+		<!--
 		<dependency>
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-all-server</artifactId>
@@ -29,13 +30,17 @@
             <artifactId>jsp-2.1-glassfish</artifactId>
             <version>9.1.02.B04.p0</version>
         </dependency>
-		<!--
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
 		-->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-annotations</artifactId>
+            <version>${jetty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
 
 		<!-- 組み込みJettyにServletAPI3.0のアノテーションを解釈させるために必要 -->
 		<dependency>
