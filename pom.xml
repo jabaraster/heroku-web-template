@@ -38,9 +38,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>yyuu</groupId>
+			<groupId>com.geishatokyo.jetty</groupId>
 			<artifactId>jetty-nosql-memcached</artifactId>
-			<version>0.0.2-jar-with-dependencies</version>
+			<version>0.3.0</version>
 		</dependency>
 
 		<!-- その他 -->
@@ -48,6 +48,11 @@
 			<groupId>jabaraster</groupId>
 			<artifactId>jabara-general</artifactId>
 			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
 		</dependency>
 	</dependencies>
 	<build>

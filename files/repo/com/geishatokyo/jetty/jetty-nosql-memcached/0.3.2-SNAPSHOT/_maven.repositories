@@ -1,0 +1,7 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Mon Dec 17 01:11:00 JST 2012
+jetty-nosql-memcached-0.3.2-SNAPSHOT-javadoc.jar>=
+jetty-nosql-memcached-0.3.2-SNAPSHOT.jar>=
+jetty-nosql-memcached-0.3.2-SNAPSHOT.pom>=
+jetty-nosql-memcached-0.3.2-SNAPSHOT-jar-with-dependencies.jar>=
+jetty-nosql-memcached-0.3.2-SNAPSHOT-sources.jar>=
