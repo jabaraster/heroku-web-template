@@ -59,8 +59,10 @@
 	</dependencies>
 	<build>
 		<finalName>sample-web</finalName>
+		<!--
 		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
 		<testOutputDirectory>src/main/webapp/WEB-INF/test-classes</testOutputDirectory>
+		-->
 		<plugins>
 			<plugin>
 				<inherited>true</inherited>
