@@ -30,6 +30,9 @@ import com.sun.jersey.spi.container.servlet.ServletContainer;
 @WebListener
 public class SampleWebInitializer implements ServletContextListener {
 
+    private static final String PATH_WICKET = "/ui/*";  //$NON-NLS-1$
+    private static final String PATH_REST   = "/rest/*"; //$NON-NLS-1$
+
     /**
      * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
      */
@@ -47,6 +50,10 @@ public class SampleWebInitializer implements ServletContextListener {
 
         initializeJersey(servletContext);
         initializeWicket(servletContext);
+
+        // Filterは後に登録したものがより早く適用される.
+        // このためWicketFilterが処理するリクエストにもDumpFilterを適用するには
+        // WicketFilterより後にDumpFilterを登録するようにする.
         initializeDumpFilter(servletContext);
     }
 
@@ -65,14 +72,13 @@ public class SampleWebInitializer implements ServletContextListener {
     private static void initializeJersey(final ServletContext pServletContext) {
         final ServletRegistration.Dynamic jerseyServlet = addServlet(pServletContext, ServletContainer.class);
         jerseyServlet.setInitParameter(ServletContainer.APPLICATION_CONFIG_CLASS, SampleRestApplication.class.getName());
-        jerseyServlet.addMapping("/rest/*"); //$NON-NLS-1$
+        jerseyServlet.addMapping(PATH_REST);
     }
 
     private static void initializeWicket(final ServletContext pServletContext) {
         final FilterRegistration.Dynamic filter = addFiter(pServletContext, WicketFilter.class);
-        final String PATH = "/ui/*"; //$NON-NLS-1$
-        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH);
-        filter.setInitParameter(WicketFilter.FILTER_MAPPING_PARAM, PATH);
+        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH_WICKET);
+        filter.setInitParameter(WicketFilter.FILTER_MAPPING_PARAM, PATH_WICKET);
         filter.setInitParameter(WicketFilter.APP_FACT_PARAM, F.class.getName());
     }
 

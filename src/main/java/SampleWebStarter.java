@@ -67,7 +67,9 @@ public class SampleWebStarter {
         context.setResourceBase(pWebAppDirectory);
         context.setParentLoaderPriority(true);
 
-        context.setSessionHandler(createSessionHandler(pServer));
+        if (hasMemcachedServersDirective()) {
+            context.setSessionHandler(createSessionHandler(pServer));
+        }
 
         return context;
     }
@@ -108,5 +110,9 @@ public class SampleWebStarter {
 
     private static int getWebPort() {
         return Integer.parseInt(System.getProperty(KEY_WEB_PORT));
+    }
+
+    private static boolean hasMemcachedServersDirective() {
+        return System.getProperty(KEY_MEMCACHED_SERVERS) != null;
     }
 }
