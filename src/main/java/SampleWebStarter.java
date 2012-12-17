@@ -1,15 +1,16 @@
-import jabara.sample.web.MemcachedClient;
+import jabara.sample.memcached.MemcachedClient;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.nosql.kvs.AbstractKeyValueStoreClient;
 import org.eclipse.jetty.nosql.memcached.AbstractMemcachedClientFactory;
 import org.eclipse.jetty.nosql.memcached.MemcachedSessionIdManager;
+import org.eclipse.jetty.nosql.memcached.MemcachedSessionManager;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.FragmentConfiguration;
 import org.eclipse.jetty.webapp.MetaInfConfiguration;
@@ -22,37 +23,34 @@ import org.eclipse.jetty.webapp.WebXmlConfiguration;
  * @author jabaraster
  */
 public class SampleWebStarter {
-    private static final Logger _logger                = Logger.getLogger(SampleWebStarter.class);
-
     /**
      * 
      */
-    public static final String  KEY_WEB_PORT           = "web.port";                              //$NON-NLS-1$
+    public static final String KEY_WEB_PORT           = "web.port";          //$NON-NLS-1$
     /**
      * 
      */
-    public static final String  KEY_MEMCACHED_SERVERS  = "memcached.servers";                     //$NON-NLS-1$
+    public static final String KEY_MEMCACHED_SERVERS  = "memcached.servers"; //$NON-NLS-1$
     /**
      * 
      */
-    public static final String  KEY_MEMCACHED_USERNAME = "memcached.username";                    //$NON-NLS-1$
+    public static final String KEY_MEMCACHED_USERNAME = "memcached.username"; //$NON-NLS-1$
     /**
      * 
      */
-    public static final String  KEY_MEMCACHED_PASSWORD = "memcached.password";                    //$NON-NLS-1$
+    public static final String KEY_MEMCACHED_PASSWORD = "memcached.password"; //$NON-NLS-1$
 
     /**
      * @param pArgs -
      * @throws Exception -
      */
     public static void main(final String[] pArgs) throws Exception {
-        final int port = getWebPort();
-        final String webappDirLocation = "src/main/webapp/"; //$NON-NLS-1$
+        final Server server = createServer();
+        server.start();
+        server.join();
+    }
 
-        final Server server = new Server(port);
-
-        setupMemcachedSessionIdManager(server);
-
+    private static WebAppContext createContext(final Server pServer, final String pWebAppDirectory) throws IOException {
         final WebAppContext context = new WebAppContext();
         context.setConfigurations(new Configuration[] { //
         new AnnotationConfiguration() //
@@ -65,22 +63,18 @@ public class SampleWebStarter {
                 , new EnvConfiguration() //
         });
         context.setContextPath("/"); //$NON-NLS-1$
-        context.setDescriptor(webappDirLocation + "/WEB-INF/web.xml"); //$NON-NLS-1$
-        context.setResourceBase(webappDirLocation);
+        context.setDescriptor(pWebAppDirectory + "/WEB-INF/web.xml"); //$NON-NLS-1$
+        context.setResourceBase(pWebAppDirectory);
         context.setParentLoaderPriority(true);
 
-        server.setHandler(context);
-        server.start();
-        server.join();
+        context.setSessionHandler(createSessionHandler(pServer));
+
+        return context;
     }
 
-    private static int getWebPort() {
-        return Integer.parseInt(System.getProperty(KEY_WEB_PORT));
-    }
-
-    private static void setupMemcachedSessionIdManager(final Server server) throws IOException {
+    private static MemcachedSessionIdManager createMemcachedSessionIdManager(final Server pServer) throws IOException {
         final String serverString = System.getProperty(KEY_MEMCACHED_SERVERS);
-        final MemcachedSessionIdManager memcachedSessionIdManager = new MemcachedSessionIdManager(server, serverString,
+        final MemcachedSessionIdManager memcachedSessionIdManager = new MemcachedSessionIdManager(pServer, serverString,
                 new AbstractMemcachedClientFactory() {
                     @Override
                     public AbstractKeyValueStoreClient create(final String pServerString) {
@@ -93,6 +87,26 @@ public class SampleWebStarter {
                     }
                 });
         memcachedSessionIdManager.setKeyPrefix("session:"); //$NON-NLS-1$
-        server.setSessionIdManager(memcachedSessionIdManager);
+
+        pServer.setSessionIdManager(memcachedSessionIdManager);
+
+        return memcachedSessionIdManager;
+    }
+
+    private static Server createServer() throws IOException {
+        final String webAppDirectory = "src/main/webapp/"; //$NON-NLS-1$
+        final Server server = new Server(getWebPort());
+        server.setHandler(createContext(server, webAppDirectory));
+        return server;
+    }
+
+    private static SessionHandler createSessionHandler(final Server pServer) throws IOException {
+        final MemcachedSessionManager memcachedSessionManager = new MemcachedSessionManager();
+        memcachedSessionManager.setSessionIdManager(createMemcachedSessionIdManager(pServer));
+        return new SessionHandler(memcachedSessionManager);
+    }
+
+    private static int getWebPort() {
+        return Integer.parseInt(System.getProperty(KEY_WEB_PORT));
     }
 }

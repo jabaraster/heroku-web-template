@@ -1,4 +1,4 @@
-package jabara.sample.web;
+package jabara.sample.memcached;
 
 import net.spy.memcached.ConnectionFactoryBuilder;
 import net.spy.memcached.auth.AuthDescriptor;
@@ -16,22 +16,28 @@ public class MemcachedClient extends BinarySpyMemcachedClient {
     private final boolean needAuth;
 
     /**
-     * @param pServerString -
+     * 認証不要なmemcachedサーバに接続するときにこのコンストラクタを使用して下さい.
+     * 
+     * @param pServersString 例）localhost:11211 <br>
+     *            複数のサーバに接続する場合は" "(半角空白)区切りで指定.
      */
-    public MemcachedClient(final String pServerString) {
-        super(pServerString);
+    public MemcachedClient(final String pServersString) {
+        super(pServersString);
         this.needAuth = false;
         this.username = null;
         this.password = null;
     }
 
     /**
-     * @param pServerString -
+     * 認証が必要なmemcachedサーバに接続するときにこのコンストラクタを使用して下さい.
+     * 
+     * @param pServersString 例）localhost:11211 <br>
+     *            複数のサーバに接続する場合は" "(半角空白)区切りで指定.
      * @param pUsername -
      * @param pPassword -
      */
-    public MemcachedClient(final String pServerString, final String pUsername, final String pPassword) {
-        super(pServerString);
+    public MemcachedClient(final String pServersString, final String pUsername, final String pPassword) {
+        super(pServersString);
         this.needAuth = true;
         this.username = pUsername;
         this.password = pPassword;

@@ -37,5 +37,4 @@ public class SampleServlet extends HttpServlet {
         pResponse.setContentType("text/plain"); //$NON-NLS-1$
         pResponse.getWriter().append("Counter value ---> " + counter.get()); //$NON-NLS-1$
     }
-
 }
