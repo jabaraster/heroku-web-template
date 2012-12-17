@@ -1,1 +1,1 @@
-web:    java -cp src/main/webapp/WEB-INF/classes:target/dependency/* -XX:+UseCompressedOops -Dweb.port=${PORT} -Dmemcached.server=${MEMCACHIER_SERVERS} -Dmemcached.username=${MEMCACHIER_USERNAME} -Dmemcached.password=${MEMCACHIER_PASSWORD} -server SampleWebStarter
+web:    java -cp src/main/webapp/WEB-INF/classes:target/dependency/* -XX:+UseCompressedOops -Dweb.port=${PORT} -Dwicket.configuration=deployment -Dmemcached.servers=${MEMCACHIER_SERVERS} -Dmemcached.username=${MEMCACHIER_USERNAME} -Dmemcached.password=${MEMCACHIER_PASSWORD} -server SampleWebStarter
