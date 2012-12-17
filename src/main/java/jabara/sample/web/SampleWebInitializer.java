@@ -5,6 +5,8 @@ package jabara.sample.web;
 
 import jabara.sample.web.rest.SampleRestApplication;
 import jabara.sample.web.ui.SampleWicketApplication;
+import jabara.servlet.RequestDumpFilter;
+import jabara.servlet.UTF8EncodingFilter;
 
 import java.util.EnumSet;
 
@@ -55,6 +57,8 @@ public class SampleWebInitializer implements ServletContextListener {
         // このためWicketFilterが処理するリクエストにもDumpFilterを適用するには
         // WicketFilterより後にDumpFilterを登録するようにする.
         initializeDumpFilter(servletContext);
+
+        initializeEncodingFilter(servletContext);
     }
 
     private static FilterRegistration.Dynamic addFiter(final ServletContext pServletContext, final Class<? extends Filter> pFilterType) {
@@ -66,7 +70,11 @@ public class SampleWebInitializer implements ServletContextListener {
     }
 
     private static void initializeDumpFilter(final ServletContext pServletContext) {
-        addFiter(pServletContext, DumpFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*"); //$NON-NLS-1$
+        addFiter(pServletContext, RequestDumpFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*"); //$NON-NLS-1$
+    }
+
+    private static void initializeEncodingFilter(final ServletContext pServletContext) {
+        addFiter(pServletContext, UTF8EncodingFilter.class).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*"); //$NON-NLS-1$
     }
 
     private static void initializeJersey(final ServletContext pServletContext) {

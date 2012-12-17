@@ -96,6 +96,13 @@
 			<version>1.0</version>
 		</dependency>
 
+		<!-- リクエストのダンプなど -->
+		<dependency>
+			<groupId>jabaraster</groupId>
+			<artifactId>jabara-servlet</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<!-- テスト -->
 		<dependency>
 			<groupId>junit</groupId>

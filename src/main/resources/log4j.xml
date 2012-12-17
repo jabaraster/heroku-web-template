@@ -5,33 +5,11 @@
   <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
      <param name="Target" value="System.out" /> 
      <layout class="org.apache.log4j.PatternLayout">
-        <param name="ConversionPattern" value="[%-5p] [%-26.26c] %m%n" />
+        <param name="ConversionPattern" value="[%d{HH:mm:ss}][%-5p][%-30.30c] %m%n" />
      </layout>
   </appender>
 
 <!--
-  <logger name="httpclient.wire">
-    <level value="warn" />
-    <appender-ref ref="stdout" />
-  </logger>
-  <logger name="org.apache.commons.httpclient">
-    <level value="warn" />
-    <appender-ref ref="stdout" />
-  </logger>
-
-  <logger name="org.apache.wicket">
-    <level value="warn" />
-    <appender-ref ref="stdout" />
-  </logger>
-  <logger name="org.eclipse.jetty">
-    <level value="warn" />
-    <appender-ref ref="stdout" />
-  </logger>
-
-  <logger name="com.sun.jersey">
-    <level value="warn" />
-    <appender-ref ref="stdout" />
-  </logger>
   <logger name="jndi">
     <level value="warn" />
     <appender-ref ref="stdout" />
@@ -44,21 +22,32 @@
     <level value="warn" />
     <appender-ref ref="stdout" />
   </logger>
--->
-
   <logger name="org.hibernate.type">
     <level value="warn" />
     <appender-ref ref="stdout" />
   </logger>
-
   <logger name="org.hibernate.SQL">
     <level value="warn" />
     <appender-ref ref="stdout" />
   </logger>
+-->
+
+  <logger name="org.apache.wicket">
+    <level value="warn" />
+  </logger>
+  <logger name="org.eclipse.jetty">
+    <level value="warn" />
+  </logger>
+  <logger name="com.sun.jersey">
+    <level value="warn" />
+  </logger>
 
   <logger name="SampleWebStarter">
     <level value="trace" />
-    <appender-ref ref="stdout" />
+  </logger>
+
+  <logger name="jabara.servlet.RequestDumpFilter">
+    <level value="trace" />
   </logger>
 
   <root>
