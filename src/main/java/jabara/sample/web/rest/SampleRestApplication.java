@@ -3,6 +3,8 @@
  */
 package jabara.sample.web.rest;
 
+import jabara.jax_rs.JsonMessageBodyReaderWriter;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
