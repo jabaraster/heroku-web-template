@@ -37,7 +37,7 @@ public class DumpFilter implements Filter {
             ServletException {
         final HttpServletRequest request = (HttpServletRequest) pRequest;
 
-        System.out.println(request.getRequestURI());
+        System.out.println("-------------- " + request.getRequestURI()); //$NON-NLS-1$
         final Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (final Cookie cookie : cookies) {
