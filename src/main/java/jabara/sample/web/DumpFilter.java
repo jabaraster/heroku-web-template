@@ -21,11 +21,17 @@ import javax.servlet.http.HttpServletRequest;
 @WebFilter(urlPatterns = { "/*" })
 public class DumpFilter implements Filter {
 
+    /**
+     * @see javax.servlet.Filter#destroy()
+     */
     @Override
     public void destroy() {
         //
     }
 
+    /**
+     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     */
     @Override
     public void doFilter(final ServletRequest pRequest, final ServletResponse pResponse, final FilterChain pChain) throws IOException,
             ServletException {
@@ -42,6 +48,9 @@ public class DumpFilter implements Filter {
         pChain.doFilter(pRequest, pResponse);
     }
 
+    /**
+     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+     */
     @Override
     public void init(@SuppressWarnings("unused") final FilterConfig pFilterConfig) {
         //

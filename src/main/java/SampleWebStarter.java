@@ -1,4 +1,4 @@
-import jabara.sample.web.HerokuMemcachierClient;
+import jabara.sample.web.MemcachedClient;
 
 import java.io.IOException;
 
@@ -22,10 +22,24 @@ import org.eclipse.jetty.webapp.WebXmlConfiguration;
  * @author jabaraster
  */
 public class SampleWebStarter {
-    private static final Logger _logger                         = Logger.getLogger(SampleWebStarter.class);
+    private static final Logger _logger                = Logger.getLogger(SampleWebStarter.class);
 
-    private static final int    DEFAULT_PORT                    = 8081;
-    private static final String DEFAULT_MEMCACHED_SERVER_STRING = "localhost:11211";                       //$NON-NLS-1$
+    /**
+     * 
+     */
+    public static final String  KEY_WEB_PORT           = "web.port";                              //$NON-NLS-1$
+    /**
+     * 
+     */
+    public static final String  KEY_MEMCACHED_SERVERS  = "memcached.servers";                     //$NON-NLS-1$
+    /**
+     * 
+     */
+    public static final String  KEY_MEMCACHED_USERNAME = "memcached.username";                    //$NON-NLS-1$
+    /**
+     * 
+     */
+    public static final String  KEY_MEMCACHED_PASSWORD = "memcached.password";                    //$NON-NLS-1$
 
     /**
      * @param pArgs -
@@ -61,36 +75,23 @@ public class SampleWebStarter {
     }
 
     private static int getWebPort() {
-        final String webPort = System.getenv("PORT"); //$NON-NLS-1$
-        if (webPort == null || webPort.isEmpty()) {
-            return DEFAULT_PORT;
-        }
-        return Integer.parseInt(webPort);
+        return Integer.parseInt(System.getProperty(KEY_WEB_PORT));
     }
 
     private static void setupMemcachedSessionIdManager(final Server server) throws IOException {
-        final MemcachedSessionIdManager memcachedSessionIdManager;
-        final String string = System.getenv("MEMCACHIER_SERVERS"); //$NON-NLS-1$
-        if (string == null || string.isEmpty()) {
-
-            if (_logger.isTraceEnabled()) {
-                _logger.trace("use local memcached."); //$NON-NLS-1$
-            }
-
-            memcachedSessionIdManager = new MemcachedSessionIdManager(server, DEFAULT_MEMCACHED_SERVER_STRING);
-
-        } else {
-            if (_logger.isTraceEnabled()) {
-                _logger.trace("use memcachier on heroku."); //$NON-NLS-1$
-            }
-
-            memcachedSessionIdManager = new MemcachedSessionIdManager(server, null, new AbstractMemcachedClientFactory() {
-                @Override
-                public AbstractKeyValueStoreClient create(@SuppressWarnings("unused") final String pServerString) {
-                    return new HerokuMemcachierClient();
-                }
-            });
-        }
+        final String serverString = System.getProperty(KEY_MEMCACHED_SERVERS);
+        final MemcachedSessionIdManager memcachedSessionIdManager = new MemcachedSessionIdManager(server, serverString,
+                new AbstractMemcachedClientFactory() {
+                    @Override
+                    public AbstractKeyValueStoreClient create(final String pServerString) {
+                        final String username = System.getProperty(KEY_MEMCACHED_USERNAME);
+                        if (username == null) {
+                            return new MemcachedClient(pServerString);
+                        }
+                        final String password = System.getProperty(KEY_MEMCACHED_PASSWORD);
+                        return new MemcachedClient(pServerString, username, password);
+                    }
+                });
         memcachedSessionIdManager.setKeyPrefix("session:"); //$NON-NLS-1$
         server.setSessionIdManager(memcachedSessionIdManager);
     }
