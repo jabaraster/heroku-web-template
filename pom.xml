@@ -14,7 +14,9 @@
 		<jersey.version>1.8</jersey.version>
 	</properties>
 
+	<!-- 依存ライブラリを記述 -->
 	<dependencies>
+
 		<!-- 組み込みJettyの実行に必要 -->
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
@@ -41,23 +43,11 @@
 			<version>3.3.1</version>
 		</dependency>
 
-		<!-- Jettyでセッションレプリケーションを実現するためのライブラリ. NoSQLを利用したHttpSession実装を提供 -->
+		<!-- Jettyでセッションレプリケーションを実現するためのライブラリ. Memcachedを利用したHttpSession実装を提供 -->
 		<dependency>
 			<groupId>com.geishatokyo.jetty</groupId>
 			<artifactId>jetty-nosql-memcached</artifactId>
 			<version>0.3.2-SNAPSHOT-jar-with-dependencies</version>
-		</dependency>
-
-		<!-- ログ -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.2</version>
 		</dependency>
 
 		<!-- Wicket -->
@@ -72,38 +62,49 @@
 			<version>${wicket.version}</version>
 		</dependency>
 
-		<!-- Jersey(JAX-RS実装) -->
+		<!-- Jersey(JAX-RS実装)のコア -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-json</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
+		<!-- Jerseyでファイルアップロードを扱うために必要 -->
+		<!-- このライブラリを使う場合はJersey依存になることに注意が必要だが、かなり便利なので重宝する. -->
+		<!--
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-multipart</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
+		-->
 
-		<!-- JAX-RSでJSONを上手に扱うために必要 -->
+		<!-- JAX-RSでJSONを上手に扱うためのライブラリ. 河野作成 -->
 		<dependency>
 			<groupId>jabaraster</groupId>
 			<artifactId>jabara-jax-rs</artifactId>
 			<version>1.0</version>
 		</dependency>
 
-		<!-- リクエストのダンプなど -->
+		<!-- ログ -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<!-- Servletに関連するプリミティブライブラリ. リクエストダンプに使う. 河野作成. -->
 		<dependency>
 			<groupId>jabaraster</groupId>
 			<artifactId>jabara-servlet</artifactId>
 			<version>1.0</version>
 		</dependency>
 
-		<!-- テスト -->
+		<!-- テスト用 -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -151,6 +152,7 @@
 				</excludes>
 			</testResource>
 		</testResources>
+
 		<plugins>
 
 			<!-- UTF-8のソースを正しくコンパイルしてもらうための設定 -->
@@ -179,7 +181,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- このプロジェクトが依存するJARをクラスパス位置にコピーする設定 -->
+			<!-- このプロジェクトが依存するJARをクラスパスにコピーする設定 -->
 			<!-- これがないとHerokuでのWebアプリ起動に失敗する -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -205,6 +207,8 @@
 			<id>project.local</id>
 			<url>file://${project.basedir}/files/repo</url>
 		</repository>
+
+		<!-- 河野作成ライブラリのリポジトリ -->
 		<repository>
 			<id>jabaraster's repository</id>
 			<url>http://jabaraster.github.com/maven/</url>

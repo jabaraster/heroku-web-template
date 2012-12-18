@@ -20,7 +20,7 @@ public class TimeResourceTest {
     /**
      * @throws Throwable -
      */
-    @SuppressWarnings({ "static-method", "nls", "resource" })
+    @SuppressWarnings({ "static-method", "nls" })
     @Test
     public void _test() throws Throwable {
         final HttpURLConnection conn = (HttpURLConnection) new URL("http://localhost:8081/rest/time/now").openConnection();
