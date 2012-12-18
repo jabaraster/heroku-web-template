@@ -41,6 +41,11 @@ public class SampleWebStarter {
     public static final String KEY_MEMCACHED_PASSWORD = "memcached.password"; //$NON-NLS-1$
 
     /**
+     * 
+     */
+    public static final int    DEFAULT_WEB_PORT       = 8081;
+
+    /**
      * @param pArgs -
      * @throws Exception -
      */
@@ -109,7 +114,11 @@ public class SampleWebStarter {
     }
 
     private static int getWebPort() {
-        return Integer.parseInt(System.getProperty(KEY_WEB_PORT));
+        final String webPort = System.getProperty(KEY_WEB_PORT);
+        if (webPort == null) {
+            return DEFAULT_WEB_PORT;
+        }
+        return Integer.parseInt(webPort);
     }
 
     private static boolean hasMemcachedServersDirective() {
