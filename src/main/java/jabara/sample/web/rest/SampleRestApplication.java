@@ -23,7 +23,7 @@ public class SampleRestApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         return new HashSet<Class<?>>(Arrays.asList(new Class<?>[] { //
-                JsonMessageBodyReaderWriter.class //
+                JsonMessageBodyReaderWriter.class // JSONをきれいに返すにはこのクラスが必要.
                 }));
     }
 

@@ -14,6 +14,11 @@
   <classpathentry kind="var" path="M2_REPO/asm/asm/3.1/asm-3.1.jar" sourcepath="M2_REPO/asm/asm/3.1/asm-3.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/asm/asm-commons/3.3.1/asm-commons-3.3.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/asm/asm-tree/3.3.1/asm-tree-3.3.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/cglib/cglib/2.2/cglib-2.2.jar" sourcepath="M2_REPO/cglib/cglib/2.2/cglib-2.2-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jabaraster/.m2/repository/cglib/cglib/2.2/cglib-2.2-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/jdt/core/3.1.1/core-3.1.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar" sourcepath="M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/inject/guice/3.0/guice-3.0.jar" sourcepath="M2_REPO/com/google/inject/guice/3.0/guice-3.0-sources.jar">
@@ -30,11 +35,7 @@
   <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-core/4.1.2/hibernate-core-4.1.2.jar" sourcepath="M2_REPO/org/hibernate/hibernate-core/4.1.2/hibernate-core-4.1.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-entitymanager/4.1.2/hibernate-entitymanager-4.1.2.jar" sourcepath="M2_REPO/org/hibernate/hibernate-entitymanager/4.1.2/hibernate-entitymanager-4.1.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.1.Final/hibernate-jpa-2.0-api-1.0.1.Final.jar" sourcepath="M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.1.Final/hibernate-jpa-2.0-api-1.0.1.Final-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/jabaraster/jabara-general/1.0/jabara-general-1.0.jar" sourcepath="M2_REPO/jabaraster/jabara-general/1.0/jabara-general-1.0-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/Users/jabaraster/.m2/repository/jabaraster/jabara-general/1.0/jabara-general-1.0-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/jabaraster/jabara-general/1.0/jabara-general-1.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/jabaraster/jabara-jax-rs/1.0/jabara-jax-rs-1.0.jar" sourcepath="M2_REPO/jabaraster/jabara-jax-rs/1.0/jabara-jax-rs-1.0-sources.jar">
     <attributes>
       <attribute value="jar:file:/Users/jabaraster/.m2/repository/jabaraster/jabara-jax-rs/1.0/jabara-jax-rs-1.0-javadoc.jar!/" name="javadoc_location"/>
@@ -102,7 +103,7 @@
       <attribute value="jar:file:/Users/jabaraster/.m2/repository/com/sun/jersey/jersey-server/1.8/jersey-server-1.8-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-annotations/8.1.5.v20120716/jetty-annotations-8.1.5.v20120716.jar" sourcepath="M2_REPO/org/eclipse/jetty/jetty-annotations/8.1.5.v20120716/jetty-annotations-8.1.5.v20120716-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-annotations/8.1.5.v20120716/jetty-annotations-8.1.5.v20120716.jar">
     <attributes>
       <attribute value="jar:file:/Users/jabaraster/.m2/repository/org/eclipse/jetty/jetty-annotations/8.1.5.v20120716/jetty-annotations-8.1.5.v20120716-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
@@ -128,7 +129,7 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/com/geishatokyo/jetty/jetty-nosql-memcached/0.3.2-SNAPSHOT-jar-with-dependencies/jetty-nosql-memcached-0.3.2-SNAPSHOT-jar-with-dependencies.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-plus/8.1.5.v20120716/jetty-plus-8.1.5.v20120716.jar" sourcepath="M2_REPO/org/eclipse/jetty/jetty-plus/8.1.5.v20120716/jetty-plus-8.1.5.v20120716-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-plus/8.1.5.v20120716/jetty-plus-8.1.5.v20120716.jar">
     <attributes>
       <attribute value="jar:file:/Users/jabaraster/.m2/repository/org/eclipse/jetty/jetty-plus/8.1.5.v20120716/jetty-plus-8.1.5.v20120716-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
@@ -224,6 +225,16 @@
       <attribute value="jar:file:/Users/jabaraster/.m2/repository/org/apache/wicket/wicket-extensions/1.5.8/wicket-extensions-1.5.8-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/apache/wicket/wicket-guice/1.5.8/wicket-guice-1.5.8.jar" sourcepath="M2_REPO/org/apache/wicket/wicket-guice/1.5.8/wicket-guice-1.5.8-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jabaraster/.m2/repository/org/apache/wicket/wicket-guice/1.5.8/wicket-guice-1.5.8-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/apache/wicket/wicket-ioc/1.5.8/wicket-ioc-1.5.8.jar" sourcepath="M2_REPO/org/apache/wicket/wicket-ioc/1.5.8/wicket-ioc-1.5.8-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jabaraster/.m2/repository/org/apache/wicket/wicket-ioc/1.5.8/wicket-ioc-1.5.8-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/apache/wicket/wicket-request/1.5.8/wicket-request-1.5.8.jar" sourcepath="M2_REPO/org/apache/wicket/wicket-request/1.5.8/wicket-request-1.5.8-sources.jar">
     <attributes>
       <attribute value="jar:file:/Users/jabaraster/.m2/repository/org/apache/wicket/wicket-request/1.5.8/wicket-request-1.5.8-javadoc.jar!/" name="javadoc_location"/>
@@ -234,5 +245,5 @@
       <attribute value="jar:file:/Users/jabaraster/.m2/repository/org/apache/wicket/wicket-util/1.5.8/wicket-util-1.5.8-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>

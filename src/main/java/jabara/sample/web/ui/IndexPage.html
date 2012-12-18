@@ -9,5 +9,18 @@
     <form wicket:id="form">
       <input type="submit" wicket:id="updater" value="カウントアップ！" />
     </form>
+
+    <fieldset>
+      <legend>>現在のESAMPLEテーブルの件数：<span wicket:id="sampleCount"></span></legend>
+
+      <form wicket:id="insertForm">
+        <div wicket:id="feedback" />
+        <ul>
+          <li>コード：<input type="number" wicket:id="code" /></li>
+          <li>名前：<input type="text" wicket:id="name" /></li>
+          <li><input type="submit" wicket:id="inserter" /></li>
+        </ul>
+      </form>
+    </fieldset>
   </body>
 </html>

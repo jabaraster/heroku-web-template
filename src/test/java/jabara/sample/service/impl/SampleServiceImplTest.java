@@ -5,7 +5,7 @@ package jabara.sample.service.impl;
 
 import jabara.sample.entity.ESample;
 import jabara.sample.service.SampleService;
-import jabara.sample.service.Supplier;
+import jabara.sample.service.DI;
 
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class SampleServiceImplTest {
     @SuppressWarnings("static-method")
     @Test
     public void _getAll() {
-        for (final ESample sample : Supplier.getObject(SampleService.class).getAll()) {
+        for (final ESample sample : DI.getObject(SampleService.class).getAll()) {
             System.out.println(sample);
         }
     }

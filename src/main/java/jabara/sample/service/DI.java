@@ -13,7 +13,7 @@ import com.google.inject.Injector;
 /**
  * @author jabaraster
  */
-public final class Supplier {
+public final class DI {
 
     /**
      * 
@@ -22,8 +22,15 @@ public final class Supplier {
 
     private static final Injector _injector             = createInjector();
 
-    private Supplier() {
+    private DI() {
         // 　処理なし
+    }
+
+    /**
+     * @return Google Guiceの{@link Injector}を返します.
+     */
+    public static Injector getGuiceInjector() {
+        return _injector;
     }
 
     /**

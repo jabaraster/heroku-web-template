@@ -31,4 +31,18 @@ public class SampleServiceImpl extends DaoBase implements SampleService {
         return em.createQuery(query).getResultList();
     }
 
+    /**
+     * このメソッドは、クラスが{@link DaoBase}を継承していて、かつpublicなのでトランザクションが自動ではられます.
+     * 
+     * @see jabara.sample.service.SampleService#insert(long, java.lang.String)
+     */
+    @Override
+    public ESample insert(final long pCode, final String pName) {
+        final ESample newSample = new ESample();
+        newSample.setCode(pCode);
+        newSample.setName(pName);
+        getEntityManager().persist(newSample);
+        return newSample;
+    }
+
 }

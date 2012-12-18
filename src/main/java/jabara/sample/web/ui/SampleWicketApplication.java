@@ -3,7 +3,10 @@
  */
 package jabara.sample.web.ui;
 
+import jabara.sample.service.DI;
+
 import org.apache.wicket.Page;
+import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WebApplication;
 
 /**
@@ -31,5 +34,9 @@ public class SampleWicketApplication extends WebApplication {
 
         getMarkupSettings().setDefaultMarkupEncoding(ENC);
         getRequestCycleSettings().setResponseRequestEncoding(getMarkupSettings().getDefaultMarkupEncoding());
+
+        // GuiceによるDI機能をWicketに対して有効にする仕込み.
+        // これによりDaoBaseクラスを継承したクラスのpublicメソッドはトランザクションが自動ではられるようになる.
+        getComponentInstantiationListeners().add(new GuiceComponentInjector(this, DI.getGuiceInjector()));
     }
 }
