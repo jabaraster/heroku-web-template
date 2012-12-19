@@ -3,21 +3,31 @@
  */
 package jabara.sample.web.ui;
 
+import jabara.sample.entity.ESample;
+import jabara.sample.entity.ESample_;
 import jabara.sample.service.SampleService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.list.PageableListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
@@ -31,14 +41,14 @@ import com.google.inject.Inject;
  * @author jabaraster
  */
 public class IndexPage extends WebPage {
-    private static final long serialVersionUID = -3725581870632049658L;
+    private static final long   serialVersionUID = -3725581870632049658L;
 
     /**
      * ビジネスロジックは{@link Inject}アノテーションを付与しておけば、Guiceが自動的に適切なオブジェクトをセットしてくれます. <br>
      * これは、SampleWicketApplicationクラスでの仕込みが効いています. <br>
      */
     @Inject
-    SampleService             sampleService;
+    SampleService               sampleService;
 
     /**
      * counterという名前のLabelは、このオブジェクトを値として持ちます. <br>
@@ -48,28 +58,50 @@ public class IndexPage extends WebPage {
      * コンポーネントは値がどこから来たかを意識する必要がなくなるため、同じコンポーネントがいろんな値を扱うことが出来るようになるためです. <br>
      * なおModelを表すのは{@link IModel}インターフェイスです. <br>
      */
-    private final AtomicLong  counterValue     = new AtomicLong(0);
+    private final AtomicLong    counterValue     = new AtomicLong(0);
 
-    private Label             label;
+    /**
+     * 集合を扱うときは、値としてListを使うのが一般的です.
+     */
+    private final List<ESample> samplesValue     = new ArrayList<ESample>();
 
-    private Form<?>           form;
-    private AjaxButton        updater;
+    private Label               label;
 
-    private Form<?>           insertForm;
-    private Label             sampleCount;
+    private Form<?>             form;
+    private AjaxButton          updater;
+
+    private Form<?>             insertForm;
+    private Label               sampleCount;
 
     /** エラーメッセージを含む、メッセージを表示するためのコンポーネントです. */
-    private FeedbackPanel     feedback;
+    private FeedbackPanel       feedback;
 
     /** Long型を入力するためのテキストフィールドです. */
-    private TextField<Long>   code;
-    private TextField<String> name;
-    private AjaxButton        inserter;
+    private TextField<Long>     code;
+    private TextField<String>   name;
+    private AjaxButton          inserter;
+
+    /**
+     * 繰り返し項目を扱うには、ListViewを使います. <br>
+     * ただ、ListViewはページングに対応していません. <br>
+     * ページングを扱うには{@link PageableListView}、あるいは{@link DataTable}を使います. <br>
+     * 前者は表示対象のデータが全てメモリ上に乗る場合に使用します(乗らない場合も頑張れば使えますが、DataTableを使った方が手っ取り早い). <br>
+     * 後者はページに表示するデータをつどDBから取得して表示する場合に使用します. <br>
+     */
+    private ListView<ESample>   samples;
+
+    /**
+     * 繰り返し項目をAjaxで更新する場合、親コンポーネントが必要です. <br>
+     * これはWicketの制約でありルールです. <br>
+     * このように「業務的な意味はないがどうしても作らないといけない」コンポーネントとして、WicketはWebMarkupContainerを提供しています. <br>
+     */
+    private WebMarkupContainer  samplesContainer;
 
     /**
      * 
      */
     public IndexPage() {
+
         // コンポーネントの入れ子構造を作成します.
         // つまりPageクラスを頂点としてツリー構造になります.
         // この構造はVBのGUIと同じ構造です.
@@ -80,6 +112,11 @@ public class IndexPage extends WebPage {
         this.add(getForm());
         this.add(getSampleCount());
         this.add(getInsertForm());
+        this.add(getSamplesContainer());
+
+        // 繰り返し項目の値を初期化します.
+        // ここでは単純にDBから全件を取得していますが、件数が多くなってきた場合はページングの採用を検討するべきです.
+        this.samplesValue.addAll(this.sampleService.getAll());
     }
 
     private TextField<Long> getCode() {
@@ -161,7 +198,7 @@ public class IndexPage extends WebPage {
                 @SuppressWarnings("synthetic-access")
                 @Override
                 public String getObject() {
-                    // 画面のぐるぐるを見やすくするために少し待ちます.
+                    // 画面のぐるぐるをアピールしたいので、少し待ちます.
                     sleep();
                     // カウンターをカウントアップして返します.
                     // これによりボタンを押す度に数値が増加します.
@@ -188,7 +225,7 @@ public class IndexPage extends WebPage {
                 @SuppressWarnings("synthetic-access")
                 @Override
                 public String getObject() {
-                    // 値が必要なタイミングで、つどDBのレコード数を数えて返す.
+                    // 値が必要なタイミングで、つどDBのレコード数を数えて返します.
                     return String.valueOf(getSampleCountByDb());
                 }
             });
@@ -198,7 +235,34 @@ public class IndexPage extends WebPage {
     }
 
     private int getSampleCountByDb() {
-        return this.sampleService.getAll().size();
+        return this.sampleService.countAll();
+    }
+
+    @SuppressWarnings({ "serial", "nls" })
+    private ListView<ESample> getSamples() {
+        if (this.samples == null) {
+            this.samples = new ListView<ESample>("samples", Model.ofList(this.samplesValue)) {
+                @Override
+                protected void populateItem(final ListItem<ESample> pItem) {
+                    pItem.setModel(new CompoundPropertyModel<ESample>(pItem.getModelObject()));
+                    pItem.add(new Label(ESample_.code.getName()));
+                    pItem.add(new Label(ESample_.name.getName()));
+                }
+            };
+        }
+
+        return this.samples;
+    }
+
+    @SuppressWarnings("nls")
+    private WebMarkupContainer getSamplesContainer() {
+        if (this.samplesContainer == null) {
+            this.samplesContainer = new WebMarkupContainer("samplesContainer");
+            this.samplesContainer.setOutputMarkupId(true);
+            this.samplesContainer.add(getSamples());
+        }
+
+        return this.samplesContainer;
     }
 
     @SuppressWarnings("serial")
@@ -225,7 +289,13 @@ public class IndexPage extends WebPage {
 
     private void onInserterClick(final AjaxRequestTarget pTarget) {
         this.sampleService.insert(getCode().getModelObject().longValue(), getName().getModelObject());
+
         pTarget.add(getSampleCount());
+
+        final List<ESample> all = this.sampleService.getAll();
+        this.samplesValue.clear();
+        this.samplesValue.addAll(all);
+        pTarget.add(getSamplesContainer());
     }
 
     private static void sleep() {

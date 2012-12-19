@@ -17,6 +17,11 @@ import com.google.inject.ImplementedBy;
 public interface SampleService {
 
     /**
+     * @return 全レコード数を返します.
+     */
+    int countAll();
+
+    /**
      * @return 全ての永続化された{@link ESample}オブジェクト.
      */
     List<ESample> getAll();

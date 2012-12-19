@@ -11,8 +11,7 @@
     </form>
 
     <fieldset>
-      <legend>>現在のESAMPLEテーブルの件数：<span wicket:id="sampleCount"></span></legend>
-
+      <legend>現在のDBレコード数：<span wicket:id="sampleCount"></span></legend>
       <form wicket:id="insertForm">
         <div wicket:id="feedback" />
         <ul>
@@ -21,6 +20,11 @@
           <li><input type="submit" wicket:id="inserter" /></li>
         </ul>
       </form>
+      <h3>レコード一覧</h3>
+      <table wicket:id="samplesContainer">
+        <tr><th>コード</th><th>名前</th></tr>
+        <tr wicket:id="samples"><td wicket:id="code"></td><td wicket:id="name"></td></tr>
+      </table>
     </fieldset>
   </body>
 </html>

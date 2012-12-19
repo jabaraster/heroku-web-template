@@ -9,6 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
+ * DBのテーブル定義となる値クラス(『エンティティ』という種類のクラス). <br>
+ * 接頭辞の"E"は"Entity"のEですが、この命名には議論の余地があると思います. <br>
+ * 
  * @author jabaraster
  */
 @Entity
