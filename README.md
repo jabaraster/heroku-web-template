@@ -1,7 +1,67 @@
-
 Jetty開発環境のサンプル
 
+# このプロジェクトの説明
+Jetty+Wicket+JPAでWebアプリを作りHeroku上で動作させるためのテンプレートプロジェクトです。
+もちろん、Heroku上でなくても動作します。
+
+# プロジェクトの使い方
+## 事前にインストールしておくもの
+### Maven
+Javaで依存ライブラリをダウンロードしてくれるツール。
+http://maven.apache.org
+
+最新版をダウンロードして解凍したら、binフォルダにPATHを通せばインストールは完成。
+
+### PostgreSQL
+http://www.postgresql.jp/download
+
+### eclipse
+必須ではないが、あった方がいいでしょう。
+http://www.eclipse.org/downloads/
+
+## 動作のさせ方
+### eclipseプロジェクトZIPの入手
+このプロジェクトの次のURLからダウンロード出来ます。
+https://github.com/jabaraster/heroku-web-template/archive/master.zip
+
+### PostgreSQLの実行
+このプロジェクトはpostgresというDBに接続します。
+通常このDBはPostgreSQLをインストールしたときにデフォルトでインストールされます。
+ですので、PostgreSQLを起動しさえすれば準備完了です。
+
+### Mavenの実行
+#### eclipseに変数追加
+eclipseからMavenのリポジトリを参照可能にするために、次のコマンドを実行します。
+
+```
+mvn -Declipse.workspace=<eclipseの.metadataのあるフォルダへのパス> eclipse:add-maven-repo
+```
+
+#### 依存JARのダウンロード
+eclipseプロジェクトが依存するJARをダウンロードするために、次のコマンドを実行します。
+
+```
+mvn eclipse:eclipse
+```
+
+初めて実行するときはたくさんのJARがダウンロードされるので、かなり時間がかかります。
+
+依存JARの情報は、Mavenの設定ファイルであるpom.xmlに書かれています。
+また、実はこのコマンドは依存JARをダウンロードするためのコマンドではなく、pom.xmlの設定に従ってeclipseプロジェクトを構成するためのコマンドです。
+pom.xmlファイルを編集した場合、再度このコマンドを実行してeclipseプロジェクトに反映する必要があります。
+
+### eclipseプロジェクトのインポート
+先にダウンロードしたeclipseプロジェクトZIPを解凍し、eclipseのインポートします。
+
+これでWebアプリを実行する準備が整いました。
+
+#### SampleWebStarterクラスの実行
+このクラスを実行すると、次のURLでWebアプリにアクセス出来ます。
+http://localhost:8081/ui/
+
+
 # パッケージ構成
+推奨パッケージ構成を説明します。
 ルートパッケージを\<root_package>と表記します。
 
 ## Web関連クラスのパッケージ
@@ -44,8 +104,7 @@ web.xmlに頼らずJavaコードでServletやFilterを登録する利点は、�
 ただし、場合によってはweb.xmlを編集する必要が生じることに注意が必要です。例えばファイルの拡張子とMIMEタイプのマッピングは、web.xmlでないと登録できません。
 
 ## SampleRestApplicationクラス
-JAX-RSを使うために必要です。
-```javax.ws.rs.core.Application```クラスを継承します。
+JAX-RSを使うために必要です。```javax.ws.rs.core.Application```クラスを継承します。
 
 このクラスの主な役割は
 
@@ -61,6 +120,7 @@ Wicketを使うためのクラスです。
 Wicketの詳しい説明は別項に譲りますが、日本語の情報は多いですし、メーリングリストも充実しているので手詰まりになることはまずないです。
 
 なお```SampleWicketApplication```クラスをWebアプリケーションから使えるようにするには、前述の```SampleWebInitializer```クラスの中で```SampleWicketApplication```クラスを登録する必要があります。
+
 
 # 各種設定ファイルについて
 ## pom.xml
@@ -80,4 +140,3 @@ Herokuを使わない場合はこのファイルは無視して下さい。
 ソースをGitで管理する場合に、管理対象外とするファイルのパターンを書くファイルです。
 Gitを使わない場合はこのファイルは無視して下さい。
 
-## 
