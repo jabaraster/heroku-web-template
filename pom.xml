@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jabaraster</groupId>
-	<artifactId>RakeUp</artifactId>
+	<artifactId>heroku-web-template</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
-	<name>RakeUp Maven Webapp</name>
+	<name>Heroku Web Template Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -163,7 +163,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>rakeup</finalName>
+		<finalName>heroku-web-template</finalName>
 
 		<!-- JettyにServlet3.0のアノテーションを読み込んでもらうためにclassファイルの出力先ディレクトリを変更する -->
 		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
